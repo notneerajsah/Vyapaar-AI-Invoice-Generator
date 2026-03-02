@@ -9,6 +9,7 @@ import { useUser } from "@clerk/clerk-react";
 import { SignIn } from "@clerk/clerk-react";
 import CreateInvoice from "./pages/CreateInvoice";
 import Invoices from "./pages/Invoices";
+import InvoicePreview from "./components/InvoicePreview";
 
 // const ClerkProtected = ({ children }) => (
 //   <>
@@ -46,7 +47,16 @@ const App = () => {
           <Route index element={<Dashboard />} />
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="create-invoice" element={<CreateInvoice/>}/>
+
+
           <Route path="invoices" element={<Invoices/>}/>
+          <Route path="invoices/new" element={<CreateInvoice/>}/>
+          <Route path="invoices/:id" element={<InvoicePreview/>}/>
+          <Route path="invoices/:id/preview" element={<InvoicePreview/>}/>
+          <Route path="invoices/:id/edit" element={<CreateInvoice/>}/>
+
+          {/* <Route path="AiInvoiceModal" element={<AiInvoiceModal/>}/> */}
+
           {/* <Route path="/sign-in" element={<SignIn routing="path" path="/sign-in" />} /> */}
         </Route>
       </Routes>

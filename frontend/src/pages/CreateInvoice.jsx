@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
-import { useAuth } from "@clerk/clerk-react";
+import { useAuth, useUser } from "@clerk/clerk-react";
 import StatusBadge from "../components/StatusBadge";
 import {
   createInvoiceStyles,
@@ -191,7 +191,7 @@ export default function CreateInvoice() {
   const isEditing = Boolean(id && id !== "new");
 
   // Clerk auth hooks
-  const { getToken, isSignedIn } = useAuth();
+  const { getToken, isSignedIn, isLoaded } = useAuth();
 
   // helper to obtain token with a retry
   const obtainToken = useCallback(async () => {
@@ -385,7 +385,7 @@ export default function CreateInvoice() {
     let mounted = true;
 
     async function fetchBusinessProfile() {
-      if (!isSignedIn) return;
+      if (!isSignedIn || !isLoaded) return;
       try {
         const token = await obtainToken();
         if (!token) return;
@@ -483,7 +483,7 @@ export default function CreateInvoice() {
     return () => {
       mounted = false;
     };
-  }, [isSignedIn, obtainToken]);
+  }, [isSignedIn, obtainToken, isLoaded]);
 
   /* ---------- load invoice when editing (server first, fallback local) ---------- */
   useEffect(() => {
