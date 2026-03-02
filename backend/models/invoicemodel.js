@@ -32,7 +32,7 @@ const invoiceschema = new mongoose.Schema({
     },
     // it is clerk id it must be unique
     invoiceNumber:{
-        type: Number,
+        type: String,
         required: true,
         index: true
     },

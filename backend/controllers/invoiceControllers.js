@@ -305,7 +305,7 @@ export async function updateInvoice(req,res){
         const body = req.body || {};
         
         const query = isObjectIdString(id) ? {_id: id, owner:userId} : {invoiceNumber: id, owner: userId};
-        const existing = await Invoice.findone(query);
+        const existing = await Invoice.findOne(query);
         if (!existing){
             return  res.status(404).json({ success:false, message: "Invoice not found"})
         }
