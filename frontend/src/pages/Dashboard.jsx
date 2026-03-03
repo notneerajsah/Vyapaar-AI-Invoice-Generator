@@ -144,10 +144,26 @@ const Dashboard = () => {
   const { getToken, isSignedIn } = useAuth();
 
   // to obtain the token
-  const obtainToken = useCallback(async () => {
+  // const obtainToken = useCallback(async () => {
+  //   if (typeof getToken !== "function") return null;
+  //   try {
+  //     let token = await getToken({ template: "default" }).catch(() => null);
+  //     if (!token) {
+  //       token = await getToken({ forceRefresh: true }).catch(() => null);
+  //     }
+  //     return token;
+  //   } catch {
+  //     return null;
+  //   }
+  // }, [getToken]);
+
+  
+    const obtainToken = useCallback(async () => {
     if (typeof getToken !== "function") return null;
     try {
-      let token = await getToken({ template: "default" }).catch(() => null);
+      // let token = await getToken({ template: "default" }).catch(() => null);
+      const token = await getToken()
+      // console.log("token",token) ///jitender ka yogdan
       if (!token) {
         token = await getToken({ forceRefresh: true }).catch(() => null);
       }
