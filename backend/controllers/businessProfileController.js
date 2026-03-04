@@ -48,7 +48,7 @@ export async function createBusinessProfile(req, res) {
                 body.defaultTaxPercent !== undefined ? Number(body.defaultTaxPercent) : 18,
         });
 
-        const saved = await profilerofile.save();
+        const saved = await profile.save();
         return res.status(201).json({
             success: true,
             data:saved,
@@ -58,7 +58,7 @@ export async function createBusinessProfile(req, res) {
     
     
     catch (err) {
-        console.log("Create Business Profile error:",err)                                
+        console.error("Create Business Profile error:",err)                                
         return res.status(500).json({
             success:false,
             message:"Server Error"
@@ -70,6 +70,7 @@ export async function createBusinessProfile(req, res) {
 export async function updateBusinessProfile(req, res) {
     try {
         const { userId }= getAuth(req);
+        const { id } = req.params;
         if (!userId){
             return res.status(401).json ({success: false, message :"Authentication required."})
         }
@@ -120,7 +121,7 @@ export async function updateBusinessProfile(req, res) {
     }
     
     catch (err) {
-        console.log("Update Business Profile error:",err)                                
+        console.error("Update Business Profile error:",err)                                
         return res.status(500).json({
             success:false,
             message:"Server Error"
@@ -148,7 +149,7 @@ export async function getMyBusinessProfile(req,res) {
     } 
     
     catch (err) {
-        console.log("GetMyBusiness Profile error:",err)                                
+        console.error("GetMyBusiness Profile error:",err)                                
         return res.status(500).json({
             success:false,
             message:"Server Error"

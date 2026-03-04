@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
-import { useAuth, useUser } from "@clerk/clerk-react";
+import { useAuth } from "@clerk/clerk-react";
 import StatusBadge from "../components/StatusBadge";
 import {
   createInvoiceStyles,
@@ -90,7 +90,7 @@ function currencyFmt(amount = 0, currency = "INR") {
 function computeTotals(items = [], taxPercent = 0) {
   const safe = Array.isArray(items) ? items.filter(Boolean) : [];
   const subtotal = safe.reduce(
-    (s, it) => s + Number(it.qty || 0) * Number(it.unitPrice || 0),
+    (s, it) => s + Number(it.qty || 0) * Number(it.unitprice || 0),
     0
   );
   const tax = (subtotal * Number(taxPercent || 0)) / 100;
@@ -191,7 +191,7 @@ export default function CreateInvoice() {
   const isEditing = Boolean(id && id !== "new");
 
   // Clerk auth hooks
-  const { getToken, isSignedIn, isLoaded } = useAuth();
+  const { getToken, isSignedIn } = useAuth();
 
   // helper to obtain token with a retry
   const obtainToken = useCallback(async () => {
@@ -215,7 +215,7 @@ export default function CreateInvoice() {
       id: localId, // local preview id (server will return _id after save)
       invoiceNumber: "", // will be set on creation by generator
       issueDate: new Date().toISOString().slice(0, 10),
-      dueDate: "",
+      duedate: "",
       fromBusinessName: "",
       fromEmail: "",
       fromAddress: "",
@@ -223,7 +223,7 @@ export default function CreateInvoice() {
       fromGst: "",
       client: { name: "", email: "", address: "", phone: "" },
       items: [
-        { id: uid(), description: "Service / Item", qty: 1, unitPrice: 0 },
+        { id: uid(), description: "Service / Item", qty: 1, unitprice: 0 },
       ],
       currency: "INR",
       status: "draft",
@@ -267,7 +267,7 @@ export default function CreateInvoice() {
     });
   }
   function addItem() {
-    const it = { id: uid(), description: "", qty: 1, unitPrice: 0 };
+    const it = { id: uid(), description: "", qty: 1, unitprice: 0 };
     setItems((arr) => {
       const next = [...arr, it];
       setInvoice((inv) => (inv ? { ...inv, items: next } : inv));
@@ -385,7 +385,7 @@ export default function CreateInvoice() {
     let mounted = true;
 
     async function fetchBusinessProfile() {
-      if (!isSignedIn || !isLoaded) return;
+      if (!isSignedIn) return;
       try {
         const token = await obtainToken();
         if (!token) return;
@@ -483,7 +483,7 @@ export default function CreateInvoice() {
     return () => {
       mounted = false;
     };
-  }, [isSignedIn, obtainToken, isLoaded]);
+  }, [isSignedIn, obtainToken]);
 
   /* ---------- load invoice when editing (server first, fallback local) ---------- */
   useEffect(() => {
@@ -657,7 +657,7 @@ export default function CreateInvoice() {
       // Build prepared object but OMIT invoiceNumber when empty so server auto-generates.
       const prepared = {
         issueDate: invoice.issueDate || "",
-        dueDate: invoice.dueDate || "",
+        duedate: invoice.duedate || "",
         fromBusinessName: invoice.fromBusinessName || "",
         fromEmail: invoice.fromEmail || "",
         fromAddress: invoice.fromAddress || "",
@@ -909,8 +909,8 @@ export default function CreateInvoice() {
             <label className={createInvoiceStyles.label}>Due Date</label>
             <input
               type="date"
-              value={invoice?.dueDate || ""}
-              onChange={(e) => updateInvoiceField("dueDate", e.target.value)}
+              value={invoice?.duedate || ""}
+              onChange={(e) => updateInvoiceField("duedate", e.target.value)}
               className={createInvoiceStyles.input}
             />
           </div>
@@ -1190,7 +1190,7 @@ export default function CreateInvoice() {
             <div className={createInvoiceStyles.itemsListWrapper}>
               {items.map((it, idx) => {
                 const totalValue =
-                  Number(it?.qty || 0) * Number(it?.unitPrice || 0);
+                  Number(it?.qty || 0) * Number(it?.unitprice || 0);
                 const totalLabel = currencyFmt(totalValue, invoice.currency);
 
                 return (
@@ -1253,11 +1253,11 @@ export default function CreateInvoice() {
                         type="text"
                         inputMode="decimal"
                         className={createInvoiceStyles.itemsNumberInput}
-                        value={String(it?.unitPrice ?? "")}
+                        value={String(it?.unitprice ?? "")}
                         onChange={(e) =>
-                          updateItem(idx, "unitPrice", e.target.value)
+                          updateItem(idx, "unitprice", e.target.value)
                         }
-                        title={String(it?.unitPrice ?? "")}
+                        title={String(it?.unitprice ?? "")}
                         aria-label={`Item ${idx + 1} unit price`}
                       />
                     </div>

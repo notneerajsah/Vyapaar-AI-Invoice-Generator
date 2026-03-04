@@ -178,15 +178,15 @@ export default function InvoicePreview() {
 
   const invoiceFromState = loc?.state?.invoice ?? null;
   const [invoice, setInvoice] = useState(() =>
-    invoiceFromState ? invoiceFromState : null
+    invoiceFromState ? invoiceFromState : null,
   );
   const [loadingInvoice, setLoadingInvoice] = useState(
-    !invoiceFromState && Boolean(id)
+    !invoiceFromState && Boolean(id),
   );
   const [invoiceError, setInvoiceError] = useState(null);
 
   const [profile, setProfile] = useState(
-    () => readJSON("business_profile", defaultProfile) || defaultProfile
+    () => readJSON("business_profile", defaultProfile) || defaultProfile,
   );
   const [profileLoading, setProfileLoading] = useState(false);
 
@@ -203,7 +203,6 @@ export default function InvoicePreview() {
       return null;
     }
   }, [getToken]);
-
 
   useEffect(() => {
     let mounted = true;
@@ -230,8 +229,8 @@ export default function InvoicePreview() {
               items: Array.isArray(data.items)
                 ? data.items
                 : data.items
-                ? [...data.items]
-                : [],
+                  ? [...data.items]
+                  : [],
               invoiceNumber: data.invoiceNumber ?? data.invoiceNumber ?? "",
               currency: data.currency || "INR",
             };
@@ -247,7 +246,7 @@ export default function InvoicePreview() {
         if (!mounted) return;
         const all = getStoredInvoices();
         const found = all.find(
-          (x) => x && (x.id === id || x._id === id || x.invoiceNumber === id)
+          (x) => x && (x.id === id || x._id === id || x.invoiceNumber === id),
         );
         if (found) setInvoice(found);
         else setInvoiceError("Invoice not found");
@@ -259,7 +258,6 @@ export default function InvoicePreview() {
       mounted = false;
     };
   }, [id, invoiceFromState, obtainToken]);
-
 
   useEffect(() => {
     let mounted = true;
@@ -325,14 +323,13 @@ export default function InvoicePreview() {
     };
   }, [obtainToken]);
 
-
   useEffect(() => {
     if (!invoice) return;
     const invoiceNumber =
       invoice.invoiceNumber || invoice.id || `invoice-${Date.now()}`;
     const safe = `Invoice-${String(invoiceNumber).replace(
       /[^\w\-_.() ]/g,
-      "_"
+      "_",
     )}`;
     const prev = prevTitleRef.current ?? document.title;
     if (document.title !== safe) document.title = safe;
@@ -343,14 +340,13 @@ export default function InvoicePreview() {
     };
   }, [invoice]);
 
-
   const handlePrint = useCallback(() => {
     const invoiceNumber =
       (invoice && (invoice.invoiceNumber || invoice.id)) ||
       `invoice-${Date.now()}`;
     const safe = `Invoice-${String(invoiceNumber).replace(
       /[^\w\-_.() ]/g,
-      "_"
+      "_",
     )}`;
 
     const prevTitle = document.title;
@@ -409,23 +405,23 @@ export default function InvoicePreview() {
     invoice.items && Array.isArray(invoice.items) ? invoice.items : []
   ).filter(Boolean);
   const subtotal = items.reduce(
-    (s, it) => s + Number(it.qty || 0) * Number(it.unitPrice || 0),
-    0
+    (s, it) => s + Number(it.qty ?? 0) * Number(it.unitprice ?? 0),
+    0,
   );
   const taxPercent = Number(
-    invoice.taxPercent ?? profile.defaultTaxPercent ?? 18
+    invoice.taxPercent ?? profile.defaultTaxPercent ?? 18,
   );
   const tax = (subtotal * taxPercent) / 100;
   const total = subtotal + tax;
 
   const logo = resolveImageUrl(
-    invoice.logoDataUrl ?? profile.logoDataUrl ?? null
+    invoice.logoDataUrl ?? profile.logoDataUrl ?? null,
   );
   const stamp = resolveImageUrl(
-    invoice.stampDataUrl ?? profile.stampDataUrl ?? null
+    invoice.stampDataUrl ?? profile.stampDataUrl ?? null,
   );
   const signature = resolveImageUrl(
-    invoice.signatureDataUrl ?? profile.signatureDataUrl ?? null
+    invoice.signatureDataUrl ?? profile.signatureDataUrl ?? null,
   );
 
   const signatureName = invoice.signatureName ?? profile.signatureName ?? "";
@@ -433,7 +429,6 @@ export default function InvoicePreview() {
 
   const client = normalizeClient(invoice.client);
   const invoiceCurrency = invoice.currency || "INR";
-
 
   return (
     <div className={invoicePreviewStyles.pageContainer}>
@@ -541,7 +536,7 @@ export default function InvoicePreview() {
                     Due Date:
                   </span>
                   <span className={invoicePreviewStyles.invoiceDetailValue}>
-                    {invoice.dueDate ? formatDate(invoice.dueDate) : "—"}
+                    {invoice.duedate ? formatDate(invoice.duedate) : "—"}
                   </span>
                 </div>
                 <div className={invoicePreviewStyles.invoiceDetailRow}>
@@ -553,10 +548,10 @@ export default function InvoicePreview() {
                       invoice.status === "paid"
                         ? invoicePreviewStyles.statusPaid
                         : invoice.status === "unpaid"
-                        ? invoicePreviewStyles.statusUnpaid
-                        : invoice.status === "overdue"
-                        ? invoicePreviewStyles.statusOverdue
-                        : invoicePreviewStyles.statusDraft
+                          ? invoicePreviewStyles.statusUnpaid
+                          : invoice.status === "overdue"
+                            ? invoicePreviewStyles.statusOverdue
+                            : invoicePreviewStyles.statusDraft
                     }`}
                   >
                     {invoice.status
@@ -661,12 +656,12 @@ export default function InvoicePreview() {
                         </td>
                         <td style={{ textAlign: "right" }}>{it.qty || 0}</td>
                         <td style={{ textAlign: "right" }}>
-                          {currencyFmt(it.unitPrice, invoiceCurrency)}
+                          {currencyFmt(it.unitprice, invoiceCurrency)}
                         </td>
                         <td style={{ textAlign: "right", fontWeight: "600" }}>
                           {currencyFmt(
-                            Number(it.qty || 0) * Number(it.unitPrice || 0),
-                            invoiceCurrency
+                            Number(it.qty || 0) * Number(it.unitprice || 0),
+                            invoiceCurrency,
                           )}
                         </td>
                       </tr>

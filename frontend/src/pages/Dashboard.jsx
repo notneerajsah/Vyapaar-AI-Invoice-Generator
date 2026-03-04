@@ -161,9 +161,9 @@ const Dashboard = () => {
     const obtainToken = useCallback(async () => {
     if (typeof getToken !== "function") return null;
     try {
-      // let token = await getToken({ template: "default" }).catch(() => null);
-      const token = await getToken()
-      // console.log("token",token) ///jitender ka yogdan
+      
+      let token = await getToken()
+      
       if (!token) {
         token = await getToken({ forceRefresh: true }).catch(() => null);
       }
@@ -626,7 +626,7 @@ const Dashboard = () => {
 
                         <td className={dashboardStyles.tableCell}>
                           <div className={dashboardStyles.dateCell}>
-                            {inv.dueDate ? formatDate(inv.dueDate) : "—"}
+                            {inv.duedate ? formatDate(inv.duedate) : "—"}
                           </div>
                         </td>
 

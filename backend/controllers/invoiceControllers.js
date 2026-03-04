@@ -123,7 +123,7 @@ export async function createInvoice(req, res) {
       owner: userId, // associate invoice with Clerk userId
       invoiceNumber,
       issueDate: body.issueDate || new Date().toISOString().slice(0, 10),
-      dueDate: body.dueDate || "",
+      duedate: body.duedate || "",
       fromBusinessName: body.fromBusinessName || "",
       fromEmail: body.fromEmail || "",
       fromAddress: body.fromAddress || "",
@@ -339,7 +339,7 @@ export async function updateInvoice(req,res){
         const update = {
             invoiceNumber: body.invoiceNumber,
             issueDate: body.issueDate,
-            dueDate: body.dueDate,
+            duedate: body.duedate,
             fromBusinessName: body.fromBusinessName,
             fromEmail: body.fromEmail,
             fromAddress: body.fromAddress,

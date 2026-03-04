@@ -374,8 +374,8 @@ export default function InvoicesPage() {
       if (typeof ak === "number" && typeof bk === "number")
         return sortBy.dir === "asc" ? ak - bk : bk - ak;
 
-      const ad = Date.parse(ak || a.issueDate || a.duedate || "");
-      const bd = Date.parse(bk || b.issueDate || b.duedate || "");
+      const ad = Date.parse(ak || a.issueDate || a.dueDate || "");
+      const bd = Date.parse(bk || b.issueDate || b.dueDate || "");
       if (!isNaN(ad) && !isNaN(bd))
         return sortBy.dir === "asc" ? ad - bd : bd - ad;
 
@@ -568,7 +568,7 @@ export default function InvoicesPage() {
         id: newId,
         invoiceNumber: newId,
         issueDate: new Date().toISOString().slice(0, 10),
-        duedate: "",
+        dueDate: "",
         client: clientPlaceholder || "",
         items: [],
         currency: "INR",
@@ -922,13 +922,13 @@ export default function InvoicesPage() {
                   </div>
                 </th>
                 <th
-                  onClick={() => handleSort("duedate")}
+                  onClick={() => handleSort("dueDate")}
                   className={invoicesStyles.tableHeaderCell}
                 >
                   <div className={invoicesStyles.tableHeaderContent}>
                     Due Date{" "}
                     <SortIcon
-                      direction={sortBy.key === "duedate" ? sortBy.dir : "asc"}
+                      direction={sortBy.key === "dueDate" ? sortBy.dir : "asc"}
                     />
                   </div>
                 </th>
@@ -970,7 +970,7 @@ export default function InvoicesPage() {
                       />
                     </td>
                     <td className={invoicesStyles.dateCell}>
-                      {inv.duedate ? formatDate(inv.duedate) : "—"}
+                      {inv.dueDate ? formatDate(inv.dueDate) : "—"}
                     </td>
                     <td className={invoicesStyles.actionsCell}>
                       <div className={invoicesStyles.actionsContainer}>
