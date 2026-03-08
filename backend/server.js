@@ -9,7 +9,7 @@ import businessProfileRouter from './routes/businessProfileRouter.js';
 import aiInvoiceRouter from './routes/aiInvoiceRouter.js';
 
 const app = express();
-const port =4000;
+const port = process.env.PORT || 4000;
 // Middleware
 app.use(cors({
     origin: "http://localhost:5173",
