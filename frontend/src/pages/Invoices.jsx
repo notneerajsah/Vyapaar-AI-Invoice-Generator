@@ -6,7 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { invoicesStyles } from "../assets/dummyStyles";
 import { useAuth } from "@clerk/clerk-react";
 
-const API_BASE = "http://:4000";
+// const API_BASE = "http://:4000";
+const API_BASE = "https://vyapaar-ai-invoice-generator.onrender.com";
 
 /* ---------- helpers ---------- */
 /* ----------------- frontend-only: normalize image URLs ----------------- */
