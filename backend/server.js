@@ -12,8 +12,10 @@ const app = express();
 const port = process.env.PORT || 4000;
 // Middleware
 app.use(cors({
-    origin: "http://localhost:5173",
-    credentials: true
+    origin: [
+    "http://localhost:5173",
+    "https://vyapaar-ai-invoice-generator-frontend.onrender.com"
+  ],
 }));
 // app.use(cors());
 app.use(clerkMiddleware())
