@@ -14,7 +14,7 @@ const port = process.env.PORT || 4000;
 app.use(cors({
     origin: [
     "http://localhost:5173",
-    "https://vyapaar-ai-invoice-generator-frontend.onrender.com"
+    "https://vyapaar-ai-nine.vercel.app"
   ],
 }));
 // app.use(cors());
